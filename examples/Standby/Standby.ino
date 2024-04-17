@@ -1,8 +1,8 @@
-/*
-********************************************************************************
-*
+/**
 * This example shows how to get the microcontroller of the Portenta H7 into
-* standby mode for 10 seconds.
+* standby mode for 10 seconds. Stand by mode consumes the least amount of power.
+* However you will loose the Serial connection and the USB connection.
+* Therefore we use the LEDs to signal the different states.
 *
 * Upload the same sketch to both the M7 and the M4 core.
 *
@@ -19,8 +19,6 @@
 * Original author: A. Vidstrom (http://arduino.cc)
 *
 * This code is in the public domain
-*
-********************************************************************************
 */
 
 #include "Arduino_LowPowerPortentaH7.h"
