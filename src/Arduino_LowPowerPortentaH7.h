@@ -214,9 +214,8 @@ class LowPowerPortentaH7 {
         * @brief Check how many Deep Sleep locks are held at the moment.
         * @return The number held.
         */
-        __attribute__ ((deprecated("The numberOfDeepSleepLocks() function"
-            " is experimental and should not be used in production code"))) 
-        uint16_t numberOfDeepSleepLocks() const;
+        uint16_t numberOfDeepSleepLocks() const __attribute__ ((deprecated("The numberOfDeepSleepLocks() function"
+            " is experimental and should not be used in production code")));
         // <--
         /**
         * @brief Prepare the option bytes for entry into Standby Mode.
