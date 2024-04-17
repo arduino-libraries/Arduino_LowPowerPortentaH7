@@ -3,8 +3,13 @@
 * standby mode for 10 seconds. Stand by mode consumes the least amount of power.
 * However you will loose the Serial connection and the USB connection.
 * Therefore we use the LEDs to signal the different states.
+* 
+* The microcontroller has three power domains: one for the M7 core (D1), 
+* one for the M4 core (D2), and a separate third domain (D3) for some other functionality.
+* When all three domains are in standby mode simultaneously, the microcontroller as a whole 
+* enters Standby Mode automatically, and `modeWasStandby()` only returns true when it wakes up again.
 *
-* Upload the same sketch to both the M7 and the M4 core.
+* IMPORTANT: Upload the same sketch to both the M7 and the M4 core.
 *
 * The LED light should follow this sequence:
 *

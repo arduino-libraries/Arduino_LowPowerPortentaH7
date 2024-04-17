@@ -1,7 +1,10 @@
 /*
 ********************************************************************************
 *
-* This example shows how to allow Deep Sleep on the Portenta H7.
+* This example shows how to allow Deep Sleep on the Portenta H7 using the Mbed OS based core.
+* Deep Sleep Mode is a deeper kind of sleep that saves more power, but it's blocked 
+* by something called Deep Sleep Locks. They can be released by calling the 
+* LowPower.allowDeepSleep() function.
 *
 * The blue LED turns on first, for 5 seconds. The delay is performed with a call
 * to delay(), which will trigger Sleep Mode automatically. Then, the red LED is
@@ -18,7 +21,6 @@
 *
 * This code is in the public domain
 *
-********************************************************************************
 */
 
 #include "Arduino_LowPowerPortentaH7.h"
@@ -28,16 +30,19 @@ void setup() {
   pinMode(LEDB, OUTPUT);
   digitalWrite(LEDR, HIGH);
   digitalWrite(LEDG, HIGH);
+
   // Turn on the blue LED and call delay(5000) to
   // trigger some automatic Sleep
   digitalWrite(LEDB, LOW);
   delay(5000);
   digitalWrite(LEDB, HIGH);
+  
   // Turn on the red LED instead, for an equal amount
   // of time as was spent in Sleep
   digitalWrite(LEDR, LOW);
   delayMicroseconds(LowPower.timeSpentInSleep());
   digitalWrite(LEDR, HIGH);
+
   // Now allow Deep Sleep
   LowPower.allowDeepSleep();
   // Turn on the blue LED and call delay(5000) to
@@ -45,6 +50,7 @@ void setup() {
   digitalWrite(LEDB, LOW);
   delay(5000);
   digitalWrite(LEDB, HIGH);
+  
   // Turn on the green LED instead, for an equal amount
   // of time as was spent in Deep Sleep
   digitalWrite(LEDG, LOW);

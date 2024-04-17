@@ -21,13 +21,13 @@ There are three different low-power modes available:
 - Deep Sleep Mode
 - Standby Mode
 
-### Sleep Mode
+### 😪 Sleep Mode
 
-Sleep Mode is entered automatically in certain situations when you use the standard Arduino Mbed Core, for example, when you call delay(). But it's also the mode that saves the least power, which is why this library exists. 
+Sleep Mode is entered automatically in certain situations when you use the standard Arduino Mbed Core, for example, when you call `delay()`. But it's also the mode that saves the least power, which is why this library exists. 
 
-### Deep Sleep Mode
+### 🥱 Deep Sleep Mode
 
-Deep Sleep Mode is a deeper kind of sleep that saves more power, but it's blocked by something called Deep Sleep Locks. By default, two or three such locks are held at all times. One of them is periodically acquired and then quickly released again. The other two are held continuously but can be released by calling the LowPower.allowDeepSleep() function. When no Deep Sleep Locks are held anymore, Mbed automatically replaces Sleep Mode with Deep Sleep Mode. This saves more power and is the best option if your application is meant to run all the time but you still wish to save as much power as possible.
+Deep Sleep Mode is a deeper kind of sleep that saves more power, but it's blocked by something called Deep Sleep Locks. By default, two or three such locks are held at all times. One of them is periodically acquired and then quickly released again. The other two are held continuously but can be released by calling the `LowPower.allowDeepSleep()` function. When no Deep Sleep Locks are held anymore, Mbed automatically replaces Sleep Mode with Deep Sleep Mode. This saves more power and is the best option if your application is meant to run all the time but you still wish to save as much power as possible.
 
 In addition to the three Deep Sleep Locks already mentioned, additional locks may be held depending on the functionality you use:
 
@@ -41,10 +41,10 @@ In addition to the three Deep Sleep Locks already mentioned, additional locks ma
 - Continuously when BLE is used (more than one lock may be held in this case)
 - At certain times, when using various serial connections
 
-### Standby Mode
+### 😴 Standby Mode
 
-In Standby Mode, both the sketch and Mbed are entirely stopped by the library, and it asks the microcontroller to turn off almost all functionality to save power. You can wake it up from this mode in two ways: pulling the GPIO 0 pin low on the Portenta Breakout Board (no external pull-up resistor is necessary) or asking the library to wake up after a certain amount of time. The delay can be set anywhere from 1 second up to 36 hours, 24 minutes, and 32 seconds. When the board wakes up again, it's more or less in the same state as it would have been if you had pressed the reset button. You can ask the library what the board was doing before it started by calling one or a combination of the functions: modeWasD1Standby(), modeWasD2Standby(), modeWasStandby(), and modeWasStop().
+In Standby Mode, both the sketch and Mbed are entirely stopped by the library, and it asks the microcontroller to turn off almost all functionality to save power. You can wake it up from this mode in two ways: pulling the GPIO 0 pin low on the Portenta Breakout Board (no external pull-up resistor is necessary) or asking the library to wake up after a certain amount of time. The delay can be set anywhere from 1 second up to 36 hours, 24 minutes, and 32 seconds. When the board wakes up again, it's more or less in the same state as it would have been if you had pressed the reset button. You can ask the library what the board was doing before it started by calling one or a combination of the functions: `modeWasD1Standby()`, `modeWasD2Standby()`, `modeWasStandby()`, and `modeWasStop()`.
 
-## License
+## ⚖️ License
 
 This library is released under the [MPL-2.0 license](http://mozilla.org/MPL/2.0/).
