@@ -125,6 +125,8 @@ class LowPowerPortentaH7 {
         bool turnOffEthernet() const;
         void waitForFlashReady() const;
 
+        /// @cond DEV
+
         // No delay argument, which is fine as long as the passed flag is
         // of UntilPinActivityClass
         template<typename U, typename...>
@@ -150,6 +152,8 @@ class LowPowerPortentaH7 {
             static constexpr bool value = false;
         };
 
+        /// @endcond
+
         // No delay argument passed, just return 0
         unsigned long long int passedWakeupDelay() const
         {
@@ -170,8 +174,11 @@ class LowPowerPortentaH7 {
         }
         LowPowerPortentaH7(const LowPowerPortentaH7&)               = delete;
         LowPowerPortentaH7(LowPowerPortentaH7&&)                    = delete;
+
+        /// @cond DEV
         LowPowerPortentaH7& operator=(const LowPowerPortentaH7&)    = delete;
         LowPowerPortentaH7& operator=(LowPowerPortentaH7&&)         = delete;
+        /// @endcond
 
         /**
         * @brief Make Deep Sleep possible in the default case.
