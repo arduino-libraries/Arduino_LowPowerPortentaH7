@@ -23,3 +23,5 @@ jobs:
 
       - name: Spell check
         uses: codespell-project/actions-codespell@v2
+        with:
+          ignore_words_list: HSI
