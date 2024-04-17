@@ -230,12 +230,13 @@ bool LowPowerPortentaH7::modeWasStop() const
     return PWR->CPUCR & PWR_CPUCR_STOPF;
 }
 
-// This function uses undocumented features of Mbed to retrieve the number
-// of active deep sleep locks. It is experimental and may break at any time,
-// but can be handy for some users to debug deep sleep lock problems.
-// It uses features of the compiled machine code to find the number of locks.
 uint16_t LowPowerPortentaH7::numberOfDeepSleepLocks() const
 {
+    // This function uses undocumented features of Mbed to retrieve the number
+    // of active deep sleep locks. It is experimental and may break at any time,
+    // but can be handy for some users to debug deep sleep lock problems.
+    // It uses features of the compiled machine code to find the number of locks.
+    
     // clang-format off
     return *((volatile uint16_t*) *((volatile uint32_t*) ((((volatile uint32_t)
             &sleep_manager_can_deep_sleep) & 0xfffffffe) + 0x10)));
