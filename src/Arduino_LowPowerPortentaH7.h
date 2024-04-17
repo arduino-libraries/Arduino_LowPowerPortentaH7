@@ -172,10 +172,10 @@ class LowPowerPortentaH7 {
             static LowPowerPortentaH7 instance;
             return instance;
         }
+        /// @cond DEV
         LowPowerPortentaH7(const LowPowerPortentaH7&)               = delete;
         LowPowerPortentaH7(LowPowerPortentaH7&&)                    = delete;
 
-        /// @cond DEV
         LowPowerPortentaH7& operator=(const LowPowerPortentaH7&)    = delete;
         LowPowerPortentaH7& operator=(LowPowerPortentaH7&&)         = delete;
         /// @endcond
