@@ -172,6 +172,7 @@ class LowPowerPortentaH7 {
             static LowPowerPortentaH7 instance;
             return instance;
         }
+        
         /// @cond DEV
         LowPowerPortentaH7(const LowPowerPortentaH7&)               = delete;
         LowPowerPortentaH7(LowPowerPortentaH7&&)                    = delete;
@@ -184,37 +185,43 @@ class LowPowerPortentaH7 {
         * @brief Make Deep Sleep possible in the default case.
         */
         void allowDeepSleep() const;
+
         /**
         * @brief Check if Deep Sleep is possible or not at the moment.
         * @return Possible: true. Not possible: false.
         */
         bool canDeepSleep() const;
+
         /**
         * @brief Check if the option bytes are correct to enter Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode checkOptionBytes() const;
+
         /**
         * @brief Check if the D1 domain was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasD1Standby() const;
+
         /**
         * @brief Check if the D2 domain was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasD2Standby() const;
+
         /**
         * @brief Check if the whole microcontroller was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasStandby() const;
+
         /**
         * @brief Check if the whole microcontroller was in Stop Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasStop() const;
-        // -->
+
         // The deprecated attribute is used here because we only want this
         // warning to be shown if the user actually calls the function
         /**
@@ -223,22 +230,24 @@ class LowPowerPortentaH7 {
         */
        [[deprecated("This function is experimental and should not be used in production code")]]
         uint16_t numberOfDeepSleepLocks() const;
-        // <--
+        
         /**
         * @brief Prepare the option bytes for entry into Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode prepareOptionBytes() const;
+
         /**
         * @brief Reset the flags behind the modeWas...() functions.
         */
         void resetPreviousMode() const;
+
         /**
         * @brief Make the M4 core enter Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode standbyM4() const;
-        // -->
+
         /**
         * @brief Make the M7 core enter Standby Mode.
         * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity and LowPowerStandbyType::untilTimeElapsed.
@@ -249,22 +258,25 @@ class LowPowerPortentaH7 {
         typename std::enable_if<ArgumentsAreCorrect<T, Args...>::value,
                  LowPowerReturnCode>::type
         standbyM7(const T standbyType, const Args... args) const;
-        // <--
+        
         /**
         * @brief Time since the board was booted.
         * @return Number of microseconds.
         */
         uint64_t timeSinceBoot() const;
+
         /**
         * @brief Time spent in idle.
         * @return Number of microseconds.
         */
         uint64_t timeSpentIdle() const;
+
         /**
         * @brief Time spent in Sleep Mode.
         * @return Number of microseconds.
         */
         uint64_t timeSpentInSleep() const;
+
         /**
         * @brief Time spent in Deep Sleep Mode.
         * @return Number of microseconds.
