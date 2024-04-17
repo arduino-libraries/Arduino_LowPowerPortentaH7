@@ -1,10 +1,10 @@
-# Arduino Portenta H7 Low Power Libray
-
+# ⚡️ Arduino Portenta H7 Low Power Libray
+[![Arduino Lint](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/arduino-lint.yml) [![Compile Examples](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/spell-check.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/spell-check.yml) [![Sync Labels](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/sync-labels.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/sync-labels.yml) [![Render Documentation](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/render-documentation.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_LowPowerPortentaH7/actions/workflows/render-documentation.yml)
 [![License](https://img.shields.io/badge/License-MPL_2.0-blue)](http://mozilla.org/MPL/2.0/)
 
 The Arduino Portenta H7 Low Power library provides functionality to enable, get information about, and debug low-power modes on the Portenta H7 board.
 
-## Features
+## ✨ Features
 
 - Functionality related to Deep Sleep
 - Functionality related to Standby Mode
@@ -41,7 +41,7 @@ In addition to the three Deep Sleep Locks already mentioned, additional locks ma
 
 In Standby Mode, both the sketch and Mbed are entirely stopped by the library, and it asks the microcontroller to turn off almost all functionality to save power. You can wake it up from this mode in two ways: pulling the GPIO 0 pin low on the Portenta Breakout Board (no external pull-up resistor is necessary) or asking the library to wake up after a certain amount of time. The delay can be set anywhere from 1 second up to 36 hours, 24 minutes, and 32 seconds. When the board wakes up again, it's more or less in the same state as it would have been if you had pressed the reset button. You can ask the library what the board was doing before it started by calling one or a combination of the functions: modeWasD1Standby(), modeWasD2Standby(), modeWasStandby(), and modeWasStop().
 
-## Usage
+## 👀 Usage
 
 Start by including the library header file:
 
@@ -75,9 +75,9 @@ All configuration of Standby Mode is done when calling standbyM7(). It takes one
 - **AllowDeepSleep_Example:** This example demonstrates how to enable Deep Sleep Mode.
 - **DeepSleepLockDebug_Example:** This example demonstrates how to debug Deep Sleep Lock problems.
 
-## API
+## 📖 Documentation
 
-The API documentation can be found [here](./api.md).
+For more information about this library please read the documentation [here](./docs).
 
 ## License
 
