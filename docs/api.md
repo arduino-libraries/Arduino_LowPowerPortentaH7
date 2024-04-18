@@ -23,13 +23,9 @@ This class is specific to the Portenta H7 board.
 | [`allowDeepSleep`](#class_low_power_portenta_h7_1a7ed518f8205a0b7306d23b7e2a22e82b) | Make Deep Sleep possible in the default case. |
 | [`canDeepSleep`](#class_low_power_portenta_h7_1a07d9e0f356e40ac70655e279fbad87a9) | Check if Deep Sleep is possible or not at the moment. |
 | [`checkOptionBytes`](#class_low_power_portenta_h7_1a7519d3acf693f450af84312576d8e669) | Check if the option bytes are correct to enter Standby Mode. |
-| [`modeWasD1Standby`](#class_low_power_portenta_h7_1a4eb99fd03e8891f93d43aca4ea2329f9) | Check if the D1 domain was in Standby Mode or not. |
-| [`modeWasD2Standby`](#class_low_power_portenta_h7_1a81e1c97f6411de6c6df390f7cb1ef8dc) | Check if the D2 domain was in Standby Mode or not. |
-| [`modeWasStandby`](#class_low_power_portenta_h7_1afb2fc28d8a59bc34799e4c83a746f7c4) | Check if the whole microcontroller was in Standby Mode or not. |
-| [`modeWasStop`](#class_low_power_portenta_h7_1a8420caa1148e61bc4d40e9627866afe3) | Check if the whole microcontroller was in Stop Mode or not. |
+| [`previousCPUMode`](#class_low_power_portenta_h7_1a07557aeee28ba41e80b8b847e965ee11) | Returns the previous CPU mode and resets the flag. |
 | [`numberOfDeepSleepLocks`](#class_low_power_portenta_h7_1a9d2730d86abf42782261b0f03778c3bb) | Check how many Deep Sleep locks are held at the moment. |
 | [`prepareOptionBytes`](#class_low_power_portenta_h7_1abdc0ce13b68d3a2188702690997af2ae) | Prepare the option bytes for entry into Standby Mode. |
-| [`resetPreviousMode`](#class_low_power_portenta_h7_1a6f09b3ffe26355372f287ab90a451cc2) | Reset the flags behind the modeWas...() functions. |
 | [`standbyM4`](#class_low_power_portenta_h7_1a9e07fd4f7895a7753e7e28f99aca1ace) | Make the M4 core enter Standby Mode. |
 | [`standbyM7`](#class_low_power_portenta_h7_1a1eb5cec6e9604a48074f1c10ef5e7fb0) | Make the M7 core enter Standby Mode. |
 | [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. |
@@ -73,52 +69,16 @@ Check if the option bytes are correct to enter Standby Mode.
 A constant from the LowPowerReturnCode enum.
 <hr />
 
-### `modeWasD1Standby` <a id="class_low_power_portenta_h7_1a4eb99fd03e8891f93d43aca4ea2329f9" class="anchor"></a>
+### `previousCPUMode` <a id="class_low_power_portenta_h7_1a07557aeee28ba41e80b8b847e965ee11" class="anchor"></a>
 
 ```cpp
-bool modeWasD1Standby() const
+CPUMode previousCPUMode() const
 ```
 
-Check if the D1 domain was in Standby Mode or not.
+Returns the previous CPU mode and resets the flag.
 
 #### Returns
-Was: true. Was not: false;
-<hr />
-
-### `modeWasD2Standby` <a id="class_low_power_portenta_h7_1a81e1c97f6411de6c6df390f7cb1ef8dc" class="anchor"></a>
-
-```cpp
-bool modeWasD2Standby() const
-```
-
-Check if the D2 domain was in Standby Mode or not.
-
-#### Returns
-Was: true. Was not: false;
-<hr />
-
-### `modeWasStandby` <a id="class_low_power_portenta_h7_1afb2fc28d8a59bc34799e4c83a746f7c4" class="anchor"></a>
-
-```cpp
-bool modeWasStandby() const
-```
-
-Check if the whole microcontroller was in Standby Mode or not.
-
-#### Returns
-Was: true. Was not: false;
-<hr />
-
-### `modeWasStop` <a id="class_low_power_portenta_h7_1a8420caa1148e61bc4d40e9627866afe3" class="anchor"></a>
-
-```cpp
-bool modeWasStop() const
-```
-
-Check if the whole microcontroller was in Stop Mode or not.
-
-#### Returns
-Was: true. Was not: false;
+The previous CPU mode.
 <hr />
 
 ### `numberOfDeepSleepLocks` <a id="class_low_power_portenta_h7_1a9d2730d86abf42782261b0f03778c3bb" class="anchor"></a>
@@ -143,16 +103,6 @@ Prepare the option bytes for entry into Standby Mode.
 
 #### Returns
 A constant from the LowPowerReturnCode enum.
-<hr />
-
-### `resetPreviousMode` <a id="class_low_power_portenta_h7_1a6f09b3ffe26355372f287ab90a451cc2" class="anchor"></a>
-
-```cpp
-void resetPreviousMode() const
-```
-
-Reset the flags behind the modeWas...() functions.
-
 <hr />
 
 ### `standbyM4` <a id="class_low_power_portenta_h7_1a9e07fd4f7895a7753e7e28f99aca1ace" class="anchor"></a>
