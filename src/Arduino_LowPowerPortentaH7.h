@@ -37,6 +37,11 @@
 ********************************************************************************
 */
 
+/**
+ * @enum LowPowerReturnCode
+ * @brief Provides the return codes for the standby operations.
+ * The codes indicate the success or failure of the operations.
+ */
 enum class LowPowerReturnCode
 {
     success,                    ///< The call was successful
@@ -60,31 +65,65 @@ enum class LowPowerReturnCode
 ********************************************************************************
 */
 
+/**
+ * @brief The LowPowerStandbyType class represents different types of standby modes for low power operation.
+ * 
+ * This class provides options for standby modes: waiting until pin activity or until a specified time has elapsed.
+ * It also allows to combine the two options.
+ */
 class LowPowerStandbyType {
     public:
+        /**
+         * @brief Class representing an activity that waits until a pin changes its state.
+         * 
+         * This class provides functionality to wait until a specified pin changes its state,
+         * either from LOW to HIGH or from HIGH to LOW.
+         */
         class UntilPinActivityClass {
         };
 
+        /**
+         * @brief Represents a wakeup option which waits until a pin activity occurs.
+         * This allows the microcontroller to wake up from standby through a pin interrupt
+         * from a peripheral device.
+         */
         static const UntilPinActivityClass untilPinActivity;
 
+        /**
+         * @brief A class representing a time elapsed condition.
+         * 
+         * This class is used to specify a condition based on the elapsed time.
+         * It is typically used in conjunction with the LowPower library for Arduino.
+         */
         class UntilTimeElapsedClass {
         };
 
+        /**
+         * @brief Represents a wakeup option which waits until a specified time has elapsed.
+        */
         static const UntilTimeElapsedClass untilTimeElapsed;
 
     private:
+
+        /**
+         * @brief Represents a wakeup option which waits until either 
+         * a pin activity occurs or a specified time has elapsed.
+        */
         class UntilEitherClass {
         };
 
         friend LowPowerStandbyType::UntilEitherClass operator|(
-            const LowPowerStandbyType::UntilPinActivityClass&,
-            const LowPowerStandbyType::UntilTimeElapsedClass&);
+            const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+            const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed);
 
         friend LowPowerStandbyType::UntilEitherClass operator|(
-            const LowPowerStandbyType::UntilTimeElapsedClass&,
-            const LowPowerStandbyType::UntilPinActivityClass&);
+            const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+            const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity);
 };
 
+/**
+ * @brief The RTCWakeupDelay class represents a delay before waking up from a low power mode.
+*/
 class RTCWakeupDelay {
     public:
         /**
@@ -104,19 +143,38 @@ class RTCWakeupDelay {
         // We don't really need this large type, but we must use this specific
         // type for user-defined literals to work.
         unsigned long long int value;
+
+        /**
+        * @brief Private constructor to create a delay object with a specific delay value.
+        * @param delay The delay value in seconds.
+        */
         RTCWakeupDelay(const unsigned long long int delay) : value(delay)
         {
         }
 
         friend RTCWakeupDelay operator""_s(const unsigned long long int seconds);
-        friend RTCWakeupDelay operator""_min(const unsigned long long int seconds);
-        friend RTCWakeupDelay operator""_h(const unsigned long long int seconds);
+        friend RTCWakeupDelay operator""_min(const unsigned long long int minutes);
+        friend RTCWakeupDelay operator""_h(const unsigned long long int hours);
         friend RTCWakeupDelay operator+(const RTCWakeupDelay d1,
                                         const RTCWakeupDelay d2);
 
         friend class LowPowerPortentaH7;
 };
 
+/**
+ * @class LowPowerPortentaH7
+ * @brief A class that provides low power functionality for the Portenta H7 board.
+ * 
+ * The LowPowerPortentaH7 class allows the microcontroller on the Portenta H7 board
+ * to enter low power modes such as Standby Mode and Deep Sleep Mode. It provides
+ * functions to check the current mode, prepare the option bytes for entering Standby Mode,
+ * and control the M4 and M7 cores independently. It also provides functions to measure
+ * the time since boot, time spent in idle, sleep, and deep sleep modes.
+ * 
+ * This class is a singleton and can be accessed using the getInstance() function.
+ * 
+ * @note This class is specific to the Portenta H7 board.
+ */
 class LowPowerPortentaH7 {
     private:
         LowPowerPortentaH7()    = default;
@@ -124,6 +182,8 @@ class LowPowerPortentaH7 {
 
         bool turnOffEthernet() const;
         void waitForFlashReady() const;
+
+        /// @cond DEV
 
         // No delay argument, which is fine as long as the passed flag is
         // of UntilPinActivityClass
@@ -150,6 +210,8 @@ class LowPowerPortentaH7 {
             static constexpr bool value = false;
         };
 
+        /// @endcond
+
         // No delay argument passed, just return 0
         unsigned long long int passedWakeupDelay() const
         {
@@ -164,75 +226,93 @@ class LowPowerPortentaH7 {
         }
 
     public:
+        /**
+         * Returns the singleton instance of the LowPowerPortentaH7 class.
+         * Due to the way the low power modes are configured, only one instance
+         * of this class can exist at a time.
+         *
+         * @return The singleton instance of the LowPowerPortentaH7 class.
+         */
         static LowPowerPortentaH7& getInstance() noexcept {
             static LowPowerPortentaH7 instance;
             return instance;
         }
+
+        /// @cond DEV
         LowPowerPortentaH7(const LowPowerPortentaH7&)               = delete;
         LowPowerPortentaH7(LowPowerPortentaH7&&)                    = delete;
+
         LowPowerPortentaH7& operator=(const LowPowerPortentaH7&)    = delete;
         LowPowerPortentaH7& operator=(LowPowerPortentaH7&&)         = delete;
+        /// @endcond
 
         /**
         * @brief Make Deep Sleep possible in the default case.
         */
         void allowDeepSleep() const;
+
         /**
         * @brief Check if Deep Sleep is possible or not at the moment.
         * @return Possible: true. Not possible: false.
         */
         bool canDeepSleep() const;
+
         /**
         * @brief Check if the option bytes are correct to enter Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode checkOptionBytes() const;
+
         /**
         * @brief Check if the D1 domain was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasD1Standby() const;
+
         /**
         * @brief Check if the D2 domain was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasD2Standby() const;
+
         /**
         * @brief Check if the whole microcontroller was in Standby Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasStandby() const;
+
         /**
         * @brief Check if the whole microcontroller was in Stop Mode or not.
         * @return Was: true. Was not: false;
         */
         bool modeWasStop() const;
-        // -->
+
         // The deprecated attribute is used here because we only want this
         // warning to be shown if the user actually calls the function
         /**
         * @brief Check how many Deep Sleep locks are held at the moment.
         * @return The number held.
         */
-        __attribute__ ((deprecated("The numberOfDeepSleepLocks() function"
-            " is experimental and should not be used in production code"))) 
+       [[deprecated("This function is experimental and should not be used in production code")]]
         uint16_t numberOfDeepSleepLocks() const;
-        // <--
+        
         /**
         * @brief Prepare the option bytes for entry into Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode prepareOptionBytes() const;
+
         /**
         * @brief Reset the flags behind the modeWas...() functions.
         */
         void resetPreviousMode() const;
+
         /**
         * @brief Make the M4 core enter Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode standbyM4() const;
-        // -->
+
         /**
         * @brief Make the M7 core enter Standby Mode.
         * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity and LowPowerStandbyType::untilTimeElapsed.
@@ -243,22 +323,25 @@ class LowPowerPortentaH7 {
         typename std::enable_if<ArgumentsAreCorrect<T, Args...>::value,
                  LowPowerReturnCode>::type
         standbyM7(const T standbyType, const Args... args) const;
-        // <--
+        
         /**
         * @brief Time since the board was booted.
         * @return Number of microseconds.
         */
         uint64_t timeSinceBoot() const;
+
         /**
         * @brief Time spent in idle.
         * @return Number of microseconds.
         */
         uint64_t timeSpentIdle() const;
+
         /**
         * @brief Time spent in Sleep Mode.
         * @return Number of microseconds.
         */
         uint64_t timeSpentInSleep() const;
+
         /**
         * @brief Time spent in Deep Sleep Mode.
         * @return Number of microseconds.
@@ -272,6 +355,9 @@ class LowPowerPortentaH7 {
 ********************************************************************************
 */
 
+/**
+ * @brief The global LowPower singleton object provides access to low power features of the Portenta H7 board.
+ */
 extern const LowPowerPortentaH7& LowPower;
 
 /*
@@ -280,18 +366,54 @@ extern const LowPowerPortentaH7& LowPower;
 ********************************************************************************
 */
 
+/**
+ * @brief Literals operator to add multiple delays together. e.g. 5_s + 10_min + 2_h
+ * @param d1 The first delay.
+ * @param d2 The second delay.
+ * @return The sum of the two delays.
+*/
 RTCWakeupDelay operator+(const RTCWakeupDelay d1, const RTCWakeupDelay d2);
+
+/**
+ * @brief Literals operator to create a delay in seconds.
+ * @param seconds The number of seconds to wait before waking up.
+ * @return The delay object.
+*/
 RTCWakeupDelay operator""_s(const unsigned long long int seconds);
+
+/**
+ * @brief Literals operator to create a delay in minutes.
+ * @param minutes The number of minutes to wait before waking up.
+ * @return The delay object.
+*/
 RTCWakeupDelay operator""_min(const unsigned long long int minutes);
-RTCWakeupDelay operator""_h(const unsigned long long int minutes);
 
-LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilPinActivityClass&,
-    const LowPowerStandbyType::UntilTimeElapsedClass&);
+/**
+ * @brief Literals operator to create a delay in hours.
+ * @param hours The number of hours to wait before waking up.
+ * @return The delay object.
+*/
+RTCWakeupDelay operator""_h(const unsigned long long int hours);
 
+/**
+ * @brief Operator to combine two wakeup options.
+ * @param untilPinActivity The pin activity wakeup option.
+ * @param untilTimeElapsed The time elapsed wakeup option.
+ * @return The combined wakeup option.
+*/
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilTimeElapsedClass&,
-    const LowPowerStandbyType::UntilPinActivityClass&);
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed);
+
+/**
+ * @brief Operator to combine two wakeup options.
+ * @param untilTimeElapsed The time elapsed wakeup option.
+ * @param untilPinActivity The pin activity wakeup option.
+ * @return The combined wakeup option.
+*/
+LowPowerStandbyType::UntilEitherClass operator|(
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity);
 
 /*
 ********************************************************************************

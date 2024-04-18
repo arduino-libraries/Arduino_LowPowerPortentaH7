@@ -80,21 +80,21 @@ RTCWakeupDelay operator""_min(const unsigned long long int minutes)
     return RTCWakeupDelay(minutes * 60);
 }
 
-RTCWakeupDelay operator""_h(const unsigned long long int minutes)
+RTCWakeupDelay operator""_h(const unsigned long long int hours)
 {
-    return RTCWakeupDelay(minutes * 60 * 60);
+    return RTCWakeupDelay(hours * 60 * 60);
 }
 
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilPinActivityClass&,
-    const LowPowerStandbyType::UntilTimeElapsedClass&)
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed)
 {
     return LowPowerStandbyType::UntilEitherClass();
 }
 
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilTimeElapsedClass&,
-    const LowPowerStandbyType::UntilPinActivityClass&)
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity)
 {
     return LowPowerStandbyType::UntilEitherClass();
 }
@@ -230,12 +230,13 @@ bool LowPowerPortentaH7::modeWasStop() const
     return PWR->CPUCR & PWR_CPUCR_STOPF;
 }
 
-// This function uses undocumented features of Mbed to retrieve the number
-// of active deep sleep locks. It is experimental and may break at any time,
-// but can be handy for some users to debug deep sleep lock problems.
-// It uses features of the compiled machine code to find the number of locks.
 uint16_t LowPowerPortentaH7::numberOfDeepSleepLocks() const
 {
+    // This function uses undocumented features of Mbed to retrieve the number
+    // of active deep sleep locks. It is experimental and may break at any time,
+    // but can be handy for some users to debug deep sleep lock problems.
+    // It uses features of the compiled machine code to find the number of locks.
+    
     // clang-format off
     return *((volatile uint16_t*) *((volatile uint32_t*) ((((volatile uint32_t)
             &sleep_manager_can_deep_sleep) & 0xfffffffe) + 0x10)));
