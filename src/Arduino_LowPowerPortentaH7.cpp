@@ -80,9 +80,9 @@ RTCWakeupDelay operator""_min(const unsigned long long int minutes)
     return RTCWakeupDelay(minutes * 60);
 }
 
-RTCWakeupDelay operator""_h(const unsigned long long int minutes)
+RTCWakeupDelay operator""_h(const unsigned long long int hours)
 {
-    return RTCWakeupDelay(minutes * 60 * 60);
+    return RTCWakeupDelay(hours * 60 * 60);
 }
 
 LowPowerStandbyType::UntilEitherClass operator|(

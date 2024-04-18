@@ -109,8 +109,8 @@ class RTCWakeupDelay {
         }
 
         friend RTCWakeupDelay operator""_s(const unsigned long long int seconds);
-        friend RTCWakeupDelay operator""_min(const unsigned long long int seconds);
-        friend RTCWakeupDelay operator""_h(const unsigned long long int seconds);
+        friend RTCWakeupDelay operator""_min(const unsigned long long int minutes);
+        friend RTCWakeupDelay operator""_h(const unsigned long long int hours);
         friend RTCWakeupDelay operator+(const RTCWakeupDelay d1,
                                         const RTCWakeupDelay d2);
 
@@ -301,8 +301,8 @@ extern const LowPowerPortentaH7& LowPower;
 RTCWakeupDelay operator+(const RTCWakeupDelay d1, const RTCWakeupDelay d2);
 RTCWakeupDelay operator""_s(const unsigned long long int seconds);
 RTCWakeupDelay operator""_min(const unsigned long long int minutes);
-RTCWakeupDelay operator""_h(const unsigned long long int minutes);
 
+RTCWakeupDelay operator""_h(const unsigned long long int hours);
 LowPowerStandbyType::UntilEitherClass operator|(
     const LowPowerStandbyType::UntilPinActivityClass&,
     const LowPowerStandbyType::UntilTimeElapsedClass&);
