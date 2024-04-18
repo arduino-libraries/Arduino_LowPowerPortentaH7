@@ -43,7 +43,7 @@ In addition to the three Deep Sleep Locks already mentioned, additional locks ma
 
 ### 😴 Standby Mode
 
-In Standby Mode, both the sketch and Mbed are entirely stopped by the library, and it asks the microcontroller to turn off almost all functionality to save power. You can wake it up from this mode in two ways: pulling the GPIO 0 pin low on the Portenta Breakout Board (no external pull-up resistor is necessary) or asking the library to wake up after a certain amount of time. The delay can be set anywhere from 1 second up to 36 hours, 24 minutes, and 32 seconds. When the board wakes up again, it's more or less in the same state as it would have been if you had pressed the reset button. You can ask the library what the board was doing before it started by calling one or a combination of the functions: `modeWasD1Standby()`, `modeWasD2Standby()`, `modeWasStandby()`, and `modeWasStop()`.
+In Standby Mode, both the sketch and Mbed are entirely stopped by the library, and it asks the microcontroller to turn off almost all functionality to save power. You can wake it up from this mode in two ways: pulling the GPIO 0 pin low on the Portenta Breakout Board (no external pull-up resistor is necessary) or asking the library to wake up after a certain amount of time. The delay can be set anywhere from 1 second up to 36 hours, 24 minutes, and 32 seconds. When the board wakes up again, it's more or less in the same state as it would have been if you had pressed the reset button. You can ask the library what the board was doing before it woke up by calling `previousCPUMode()`.
 
 ## ⚖️ License
 
