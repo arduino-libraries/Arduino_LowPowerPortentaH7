@@ -180,7 +180,7 @@ template<> std::enable_if< ArgumentsAreCorrect< T, Args... >::value, LowPowerRet
 Make the M7 core enter Standby Mode.
 
 #### Parameters
-* `standbyType` One or a combination of [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a75b13fb677c84d7c230d0a1e54a08344) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1ab25b40879f8cc709b48b40a70e4801d1). 
+* `standbyType` One or a combination of [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a4c5b50ac615cf60ff88dd3b9bb145fa9) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e). 
 
 * `args` The delay before waking up again 
 
