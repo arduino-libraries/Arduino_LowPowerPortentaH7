@@ -86,15 +86,15 @@ RTCWakeupDelay operator""_h(const unsigned long long int hours)
 }
 
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilPinActivityClass&,
-    const LowPowerStandbyType::UntilTimeElapsedClass&)
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed)
 {
     return LowPowerStandbyType::UntilEitherClass();
 }
 
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilTimeElapsedClass&,
-    const LowPowerStandbyType::UntilPinActivityClass&)
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity)
 {
     return LowPowerStandbyType::UntilEitherClass();
 }

@@ -77,12 +77,12 @@ class LowPowerStandbyType {
         };
 
         friend LowPowerStandbyType::UntilEitherClass operator|(
-            const LowPowerStandbyType::UntilPinActivityClass&,
-            const LowPowerStandbyType::UntilTimeElapsedClass&);
+            const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+            const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed);
 
         friend LowPowerStandbyType::UntilEitherClass operator|(
-            const LowPowerStandbyType::UntilTimeElapsedClass&,
-            const LowPowerStandbyType::UntilPinActivityClass&);
+            const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+            const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity);
 };
 
 class RTCWakeupDelay {
@@ -304,12 +304,12 @@ RTCWakeupDelay operator""_min(const unsigned long long int minutes);
 
 RTCWakeupDelay operator""_h(const unsigned long long int hours);
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilPinActivityClass&,
-    const LowPowerStandbyType::UntilTimeElapsedClass&);
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed);
 
 LowPowerStandbyType::UntilEitherClass operator|(
-    const LowPowerStandbyType::UntilTimeElapsedClass&,
-    const LowPowerStandbyType::UntilPinActivityClass&);
+    const LowPowerStandbyType::UntilTimeElapsedClass& untilTimeElapsed,
+    const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity);
 
 /*
 ********************************************************************************
