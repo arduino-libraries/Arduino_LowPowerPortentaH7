@@ -210,24 +210,27 @@ LowPowerReturnCode LowPowerPortentaH7::checkOptionBytes() const
     return LowPowerReturnCode::success;
 }
 
-bool LowPowerPortentaH7::modeWasD1Standby() const
+CPUMode LowPowerPortentaH7::previousCPUMode() const
 {
-    return PWR->CPUCR & PWR_CPUCR_SBF_D1;
-}
+    auto registerValue = PWR->CPUCR;
+    CPUMode mode = CPUMode::unknown;
 
-bool LowPowerPortentaH7::modeWasD2Standby() const
-{
-    return PWR->CPUCR & PWR_CPUCR_SBF_D2;
-}
+    if (registerValue & PWR_CPUCR_SBF_D1)
+    {
+        mode = CPUMode::d1Standby;
+    } else if (registerValue & PWR_CPUCR_SBF_D2)
+    {
+        mode = CPUMode::d2Standby;
+    } else if (registerValue & PWR_CPUCR_SBF)
+    {
+        mode = CPUMode::standby;
+    } else if (registerValue & PWR_CPUCR_STOPF)
+    {
+        mode = CPUMode::stop;
+    }
 
-bool LowPowerPortentaH7::modeWasStandby() const
-{
-    return PWR->CPUCR & PWR_CPUCR_SBF;
-}
-
-bool LowPowerPortentaH7::modeWasStop() const
-{
-    return PWR->CPUCR & PWR_CPUCR_STOPF;
+    PWR->CPUCR |= PWR_CPUCR_CSSF; // Clear standby flags
+    return mode;
 }
 
 uint16_t LowPowerPortentaH7::numberOfDeepSleepLocks() const
@@ -275,11 +278,6 @@ LowPowerReturnCode LowPowerPortentaH7::prepareOptionBytes() const
     HAL_FLASH_OB_Lock();
     HAL_FLASH_Lock();
     return LowPowerReturnCode::obLaunchFailed;
-}
-
-void LowPowerPortentaH7::resetPreviousMode() const
-{
-    PWR->CPUCR |= PWR_CPUCR_CSSF;
 }
 
 LowPowerReturnCode LowPowerPortentaH7::standbyM4() const

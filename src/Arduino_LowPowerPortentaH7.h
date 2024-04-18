@@ -59,6 +59,21 @@ enum class LowPowerReturnCode
     turningOffEthernetFailed    ///< Unable to turn off Ethernet PHY chip
 };
 
+/**
+ * @enum CPUMode
+ * @brief Provides the different modes of the CPU.
+ * Those can be used to determine in which standby mode the CPU
+ * was before waking up.
+*/
+enum class CPUMode
+{
+    d1Standby,                  ///< Standby mode for the M7 core
+    d2Standby,                  ///< Standby mode for the M4 core
+    standby,                    ///< Standby mode for the whole microcontroller
+    stop,                        ///< Stop mode for the whole microcontroller
+    unknown                     ///< Unknown mode
+};
+
 /*
 ********************************************************************************
 *                                 Classes
@@ -273,28 +288,12 @@ class LowPowerPortentaH7 {
         LowPowerReturnCode checkOptionBytes() const;
 
         /**
-        * @brief Check if the D1 domain was in Standby Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasD1Standby() const;
+         * Returns the previous CPU mode and resets the flag.
+         *
+         * @return The previous CPU mode.
+         */
+        CPUMode previousCPUMode() const;
 
-        /**
-        * @brief Check if the D2 domain was in Standby Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasD2Standby() const;
-
-        /**
-        * @brief Check if the whole microcontroller was in Standby Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasStandby() const;
-
-        /**
-        * @brief Check if the whole microcontroller was in Stop Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasStop() const;
 
         // The deprecated attribute is used here because we only want this
         // warning to be shown if the user actually calls the function
@@ -310,11 +309,6 @@ class LowPowerPortentaH7 {
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode prepareOptionBytes() const;
-
-        /**
-        * @brief Reset the flags behind the modeWas...() functions.
-        */
-        void resetPreviousMode() const;
 
         /**
         * @brief Make the M4 core enter Standby Mode.
