@@ -179,7 +179,7 @@ class RTCWakeupDelay {
  * and control the M4 and M7 cores independently. It also provides functions to measure
  * the time since boot, time spent in idle, sleep, and deep sleep modes.
  * 
- * This class is a singleton and can be accessed using the getInstance() function.
+ * This class is a singleton and shall always be accessed through the global LowPower object.
  * 
  * @note This class is specific to the Portenta H7 board.
  */
