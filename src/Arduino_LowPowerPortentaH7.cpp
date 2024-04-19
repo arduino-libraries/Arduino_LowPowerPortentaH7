@@ -216,9 +216,9 @@ bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
 
     switch (mode)
     {
-        case CPUMode::d1Standby:
+        case CPUMode::d1DomainStandby:
             return registerValue & PWR_CPUCR_SBF_D1;
-        case CPUMode::d2Standby:
+        case CPUMode::d2DomainStandby:
             return registerValue & PWR_CPUCR_SBF_D2;
         case CPUMode::standby:
             return registerValue & PWR_CPUCR_SBF;

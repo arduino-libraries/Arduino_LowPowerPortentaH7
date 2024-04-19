@@ -84,14 +84,14 @@ void setup() {
     digitalWrite(LEDG, LOW);
     delay(2500);
   }
-  if (LowPower.wasInCPUMode(CPUMode::d1Standby))
+  if (LowPower.wasInCPUMode(CPUMode::d1DomainStandby))
   {
     digitalWrite(LEDB, LOW);
     digitalWrite(LEDR, HIGH);
     digitalWrite(LEDG, HIGH);
     delay(2500);      
   }
-  if (LowPower.wasInCPUMode(CPUMode::d2Standby))
+  if (LowPower.wasInCPUMode(CPUMode::d2DomainStandby))
   {
     digitalWrite(LEDB, HIGH);
     digitalWrite(LEDR, LOW);
