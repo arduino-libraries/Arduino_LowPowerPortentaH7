@@ -102,8 +102,8 @@ class LowPowerStandbyType {
 
         /**
          * @brief Represents a wakeup option which waits until a pin activity occurs.
-         * This allows the microcontroller to wake up from standby through a pin interrupt
-         * from a peripheral device.
+         * This allows the microcontroller to wake up from Standby Mode through a pin state
+         * change triggered by external circuitry.
          */
         static const UntilPinActivityClass untilPinActivity;
 
