@@ -59,6 +59,20 @@ enum class LowPowerReturnCode
     turningOffEthernetFailed    ///< Unable to turn off Ethernet PHY chip
 };
 
+/**
+ * @enum CPUMode
+ * @brief Provides the different modes of the CPU.
+ * Those can be used to determine in which standby mode the CPU
+ * was before waking up.
+*/
+enum class CPUMode
+{
+    d1DomainStandby,                  ///< Standby mode for the D1 domain
+    d2DomainStandby,                  ///< Standby mode for the D2 domain
+    standby,                    ///< Standby mode for the whole microcontroller
+    stop                        ///< Stop mode for the whole microcontroller
+};
+
 /*
 ********************************************************************************
 *                                 Classes
@@ -273,28 +287,23 @@ class LowPowerPortentaH7 {
         LowPowerReturnCode checkOptionBytes() const;
 
         /**
-        * @brief Check if the D1 domain was in Standby Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasD1Standby() const;
+         * Checks if the microcontroller was in the given CPU mode before starting.
+         * Note: It's possible that the microcontroller was in more than one of these modes
+         * before starting. Call this function multiple times to check for each mode.
+         * Important: When you're done checking, call resetStandbyModeFlags() to reset the flags
+         * so they are reported correctly the next time the microcontroller starts.
+         * @param mode The CPU mode to check.
+         * @return True if the microcontroller was in the given mode, false otherwise.
+         */
+        bool wasInCPUMode(CPUMode mode) const;
 
         /**
-        * @brief Check if the D2 domain was in Standby Mode or not.
-        * @return Was: true. Was not: false;
+        * @brief Reset the flags that are used to determine the microcontroller's
+        * previous CPU mode. This is necessary to get correct results from
+        * wasInCPUMode().
         */
-        bool modeWasD2Standby() const;
+        void resetPreviousCPUModeFlags() const;
 
-        /**
-        * @brief Check if the whole microcontroller was in Standby Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasStandby() const;
-
-        /**
-        * @brief Check if the whole microcontroller was in Stop Mode or not.
-        * @return Was: true. Was not: false;
-        */
-        bool modeWasStop() const;
 
         // The deprecated attribute is used here because we only want this
         // warning to be shown if the user actually calls the function
@@ -310,11 +319,6 @@ class LowPowerPortentaH7 {
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode prepareOptionBytes() const;
-
-        /**
-        * @brief Reset the flags behind the modeWas...() functions.
-        */
-        void resetPreviousMode() const;
 
         /**
         * @brief Make the M4 core enter Standby Mode.
