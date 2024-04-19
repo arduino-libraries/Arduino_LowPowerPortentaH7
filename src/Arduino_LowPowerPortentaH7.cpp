@@ -212,7 +212,7 @@ LowPowerReturnCode LowPowerPortentaH7::checkOptionBytes() const
 
 bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
 {
-    auto registerValue = PWR->CPUCR;
+    const auto registerValue = PWR->CPUCR;
 
     switch (mode)
     {
@@ -224,6 +224,8 @@ bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
             return registerValue & PWR_CPUCR_SBF;
         case CPUMode::stop:
             return registerValue & PWR_CPUCR_STOPF;
+        default:
+            return false;
     }
 
     return false;
