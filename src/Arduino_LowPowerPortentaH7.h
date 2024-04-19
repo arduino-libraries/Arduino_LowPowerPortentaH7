@@ -68,11 +68,14 @@ enum class LowPowerReturnCode
 /**
  * @brief The LowPowerStandbyType class represents different types of standby modes for low power operation.
  * 
- * This class provides options for standby modes: waiting until pin activity or until a specified time has elapsed.
- * It also allows to combine the two options.
+ * This class provides options for the following standby modes: waiting until pin activity 
+ * or until a specified time has elapsed, or both.
+ * Those are represented by LowPowerStandbyType::untilPinActivity and LowPowerStandbyType::untilTimeElapsed.
+ * To combine the two options use the | operator.
  */
 class LowPowerStandbyType {
     public:
+        /// @cond DEV
         /**
          * @brief A class representing the condition that waits until a pin changes its state.
          * 
@@ -81,6 +84,7 @@ class LowPowerStandbyType {
          */
         class UntilPinActivityClass {
         };
+        /// @endcond
 
         /**
          * @brief Represents a wakeup option which waits until a pin activity occurs.
@@ -89,6 +93,7 @@ class LowPowerStandbyType {
          */
         static const UntilPinActivityClass untilPinActivity;
 
+        /// @cond DEV
         /**
          * @brief A class representing a time elapsed condition.
          * 
@@ -97,6 +102,7 @@ class LowPowerStandbyType {
          */
         class UntilTimeElapsedClass {
         };
+        /// @endcond
 
         /**
          * @brief Represents a wakeup option which waits until a specified time has elapsed.
@@ -105,12 +111,14 @@ class LowPowerStandbyType {
 
     private:
 
+        /// @cond DEV
         /**
          * @brief Represents a wakeup option which waits until either 
          * a pin activity occurs or a specified time has elapsed.
         */
         class UntilEitherClass {
         };
+        /// @endcond
 
         friend LowPowerStandbyType::UntilEitherClass operator|(
             const LowPowerStandbyType::UntilPinActivityClass& untilPinActivity,
@@ -226,6 +234,8 @@ class LowPowerPortentaH7 {
         }
 
     public:
+
+        /// @cond DEV
         /**
          * Returns the singleton instance of the LowPowerPortentaH7 class.
          * Due to the way the low power modes are configured, only one instance
@@ -238,7 +248,6 @@ class LowPowerPortentaH7 {
             return instance;
         }
 
-        /// @cond DEV
         LowPowerPortentaH7(const LowPowerPortentaH7&)               = delete;
         LowPowerPortentaH7(LowPowerPortentaH7&&)                    = delete;
 
@@ -315,7 +324,8 @@ class LowPowerPortentaH7 {
 
         /**
         * @brief Make the M7 core enter Standby Mode.
-        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity and LowPowerStandbyType::untilTimeElapsed.
+        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
+        * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
         * @param args The delay before waking up again
         * @return A constant from the LowPowerReturnCode enum.
         */
