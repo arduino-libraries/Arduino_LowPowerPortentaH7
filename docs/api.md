@@ -12,7 +12,7 @@ A class that provides low power functionality for the Portenta H7 board.
 
 The [LowPowerPortentaH7](#class_low_power_portenta_h7) class allows the microcontroller on the Portenta H7 board to enter low power modes such as Standby Mode and Deep Sleep Mode. It provides functions to check the current mode, prepare the option bytes for entering Standby Mode, and control the M4 and M7 cores independently. It also provides functions to measure the time since boot, time spent in idle, sleep, and deep sleep modes.
 
-This class is a singleton and can be accessed using the getInstance() function.
+This class is a singleton and shall always be accessed through the global LowPower object.
 
 This class is specific to the Portenta H7 board.
 
