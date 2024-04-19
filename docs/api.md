@@ -5,9 +5,6 @@
 `class ` [`LowPowerPortentaH7`](#class_low_power_portenta_h7) | A class that provides low power functionality for the Portenta H7 board.
 `class ` [`LowPowerStandbyType`](#class_low_power_standby_type) | The [LowPowerStandbyType](#class_low_power_standby_type) class represents different types of standby modes for low power operation.
 `class ` [`RTCWakeupDelay`](#class_r_t_c_wakeup_delay) | The [RTCWakeupDelay](#class_r_t_c_wakeup_delay) class represents a delay before waking up from a low power mode.
-`class ` [`LowPowerStandbyType::UntilEitherClass`](#class_low_power_standby_type_1_1_until_either_class) | Represents a wakeup option which waits until either a pin activity occurs or a specified time has elapsed.
-`class ` [`LowPowerStandbyType::UntilPinActivityClass`](#class_low_power_standby_type_1_1_until_pin_activity_class) | A class representing the condition that waits until a pin changes its state.
-`class ` [`LowPowerStandbyType::UntilTimeElapsedClass`](#class_low_power_standby_type_1_1_until_time_elapsed_class) | A class representing a time elapsed condition.
 
 # class `LowPowerPortentaH7` <a id="class_low_power_portenta_h7" class="anchor"></a>
 
@@ -15,7 +12,7 @@ A class that provides low power functionality for the Portenta H7 board.
 
 The [LowPowerPortentaH7](#class_low_power_portenta_h7) class allows the microcontroller on the Portenta H7 board to enter low power modes such as Standby Mode and Deep Sleep Mode. It provides functions to check the current mode, prepare the option bytes for entering Standby Mode, and control the M4 and M7 cores independently. It also provides functions to measure the time since boot, time spent in idle, sleep, and deep sleep modes.
 
-This class is a singleton and can be accessed using the [getInstance()](#class_low_power_portenta_h7_1aa852067ffc101c0cb7ac526cc91080b4) function.
+This class is a singleton and can be accessed using the getInstance() function.
 
 This class is specific to the Portenta H7 board.
 
@@ -39,7 +36,6 @@ This class is specific to the Portenta H7 board.
 | [`timeSpentIdle`](#class_low_power_portenta_h7_1ad42fdfa6885d8e0fdca5aa012fdb4c60) | Time spent in idle. |
 | [`timeSpentInSleep`](#class_low_power_portenta_h7_1a994eb6fcc0382515a82b81fa37ca9f3c) | Time spent in Sleep Mode. |
 | [`timeSpentInDeepSleep`](#class_low_power_portenta_h7_1a146eb61800a74360687fd34b456c0b44) | Time spent in Deep Sleep Mode. |
-| [`getInstance`](#class_low_power_portenta_h7_1aa852067ffc101c0cb7ac526cc91080b4) | Returns the singleton instance of the [LowPowerPortentaH7](#class_low_power_portenta_h7) class. Due to the way the low power modes are configured, only one instance of this class can exist at a time. |
 
 ## Members
 
@@ -180,7 +176,7 @@ template<> std::enable_if< ArgumentsAreCorrect< T, Args... >::value, LowPowerRet
 Make the M7 core enter Standby Mode.
 
 #### Parameters
-* `standbyType` One or a combination of [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a4c5b50ac615cf60ff88dd3b9bb145fa9) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e). 
+* `standbyType` One or a combination of [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a4c5b50ac615cf60ff88dd3b9bb145fa9) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e). The combination is done with the | operator. 
 
 * `args` The delay before waking up again 
 
@@ -236,23 +232,11 @@ Time spent in Deep Sleep Mode.
 Number of microseconds.
 <hr />
 
-### `getInstance` <a id="class_low_power_portenta_h7_1aa852067ffc101c0cb7ac526cc91080b4" class="anchor"></a>
-
-```cpp
-inline static LowPowerPortentaH7 & getInstance() noexcept
-```
-
-Returns the singleton instance of the [LowPowerPortentaH7](#class_low_power_portenta_h7) class. Due to the way the low power modes are configured, only one instance of this class can exist at a time.
-
-#### Returns
-The singleton instance of the [LowPowerPortentaH7](#class_low_power_portenta_h7) class.
-<hr />
-
 # class `LowPowerStandbyType` <a id="class_low_power_standby_type" class="anchor"></a>
 
 The [LowPowerStandbyType](#class_low_power_standby_type) class represents different types of standby modes for low power operation.
 
-This class provides options for standby modes: waiting until pin activity or until a specified time has elapsed. It also allows to combine the two options.
+This class provides options for the following standby modes: waiting until pin activity or until a specified time has elapsed, or both. Those are represented by [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a4c5b50ac615cf60ff88dd3b9bb145fa9) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e). To combine the two options use the | operator.
 
 ## Summary
 
@@ -288,41 +272,4 @@ Create a delay object for the RTC wakeup.
 
 * `seconds` Seconds to wait before wakeup.
 <hr />
-
-# class `LowPowerStandbyType::UntilEitherClass` <a id="class_low_power_standby_type_1_1_until_either_class" class="anchor"></a>
-
-Represents a wakeup option which waits until either a pin activity occurs or a specified time has elapsed.
-
-## Summary
-
- Members                        | Descriptions                                
---------------------------------|---------------------------------------------
-
-## Members
-
-# class `LowPowerStandbyType::UntilPinActivityClass` <a id="class_low_power_standby_type_1_1_until_pin_activity_class" class="anchor"></a>
-
-A class representing the condition that waits until a pin changes its state.
-
-This class provides functionality to wait until a specified pin changes its state, either from LOW to HIGH or from HIGH to LOW.
-
-## Summary
-
- Members                        | Descriptions                                
---------------------------------|---------------------------------------------
-
-## Members
-
-# class `LowPowerStandbyType::UntilTimeElapsedClass` <a id="class_low_power_standby_type_1_1_until_time_elapsed_class" class="anchor"></a>
-
-A class representing a time elapsed condition.
-
-This class is used to specify a condition based on the elapsed time. It is typically used in conjunction with the LowPower library for Arduino.
-
-## Summary
-
- Members                        | Descriptions                                
---------------------------------|---------------------------------------------
-
-## Members
 
