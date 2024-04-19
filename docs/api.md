@@ -32,7 +32,7 @@ This class is specific to the Portenta H7 board.
 | [`resetPreviousMode`](#class_low_power_portenta_h7_1a6f09b3ffe26355372f287ab90a451cc2) | Reset the flags behind the modeWas...() functions. |
 | [`standbyM4`](#class_low_power_portenta_h7_1a9e07fd4f7895a7753e7e28f99aca1ace) | Make the M4 core enter Standby Mode. |
 | [`standbyM7`](#class_low_power_portenta_h7_1a1eb5cec6e9604a48074f1c10ef5e7fb0) | Make the M7 core enter Standby Mode. |
-| [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. |
+| [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. It reports the time since the last wake-up reset (after standby) or power-on depending on what happened last. |
 | [`timeSpentIdle`](#class_low_power_portenta_h7_1ad42fdfa6885d8e0fdca5aa012fdb4c60) | Time spent in idle. |
 | [`timeSpentInSleep`](#class_low_power_portenta_h7_1a994eb6fcc0382515a82b81fa37ca9f3c) | Time spent in Sleep Mode. |
 | [`timeSpentInDeepSleep`](#class_low_power_portenta_h7_1a146eb61800a74360687fd34b456c0b44) | Time spent in Deep Sleep Mode. |
@@ -190,7 +190,7 @@ A constant from the LowPowerReturnCode enum.
 uint64_t timeSinceBoot() const
 ```
 
-Time since the board was booted.
+Time since the board was booted. It reports the time since the last wake-up reset (after standby) or power-on depending on what happened last.
 
 #### Returns
 Number of microseconds.
