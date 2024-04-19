@@ -339,7 +339,7 @@ class LowPowerPortentaH7 {
         
         /**
         * @brief Time since the board was booted.
-        * It reports the time since the last wake-up reset (after standby) 
+        * It reports the time since the last wake-up reset (after being in Standby Mode) 
         * or power-on depending on what happened last.
         * @return Number of microseconds.
         */
