@@ -74,7 +74,7 @@ enum class LowPowerReturnCode
 class LowPowerStandbyType {
     public:
         /**
-         * @brief Class representing an activity that waits until a pin changes its state.
+         * @brief A class representing the condition that waits until a pin changes its state.
          * 
          * This class provides functionality to wait until a specified pin changes its state,
          * either from LOW to HIGH or from HIGH to LOW.
