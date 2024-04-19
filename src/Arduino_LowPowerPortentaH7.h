@@ -112,7 +112,6 @@ class LowPowerStandbyType {
          * @brief A class representing a time elapsed condition.
          * 
          * This class is used to specify a condition based on the elapsed time.
-         * It is typically used in conjunction with the LowPower library for Arduino.
          */
         class UntilTimeElapsedClass {
         };
