@@ -91,10 +91,10 @@ class LowPowerStandbyType {
     public:
         /// @cond DEV
         /**
-         * @brief A class representing the condition that waits until a pin changes its state.
+         * @brief A class representing the condition that waits until a wakeup pin changes its state.
          * 
          * This class provides functionality to wait until a specified pin changes its state,
-         * either from LOW to HIGH or from HIGH to LOW.
+         * from HIGH to LOW.
          */
         class UntilPinActivityClass {
         };
