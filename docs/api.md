@@ -6,7 +6,7 @@
 `class ` [`LowPowerStandbyType`](#class_low_power_standby_type) | The [LowPowerStandbyType](#class_low_power_standby_type) class represents different types of standby modes for low power operation.
 `class ` [`RTCWakeupDelay`](#class_r_t_c_wakeup_delay) | The [RTCWakeupDelay](#class_r_t_c_wakeup_delay) class represents a delay before waking up from a low power mode.
 `class ` [`LowPowerStandbyType::UntilEitherClass`](#class_low_power_standby_type_1_1_until_either_class) | Represents a wakeup option which waits until either a pin activity occurs or a specified time has elapsed.
-`class ` [`LowPowerStandbyType::UntilPinActivityClass`](#class_low_power_standby_type_1_1_until_pin_activity_class) | Class representing an activity that waits until a pin changes its state.
+`class ` [`LowPowerStandbyType::UntilPinActivityClass`](#class_low_power_standby_type_1_1_until_pin_activity_class) | A class representing the condition that waits until a pin changes its state.
 `class ` [`LowPowerStandbyType::UntilTimeElapsedClass`](#class_low_power_standby_type_1_1_until_time_elapsed_class) | A class representing a time elapsed condition.
 
 # class `LowPowerPortentaH7` <a id="class_low_power_portenta_h7" class="anchor"></a>
@@ -302,7 +302,7 @@ Represents a wakeup option which waits until either a pin activity occurs or a s
 
 # class `LowPowerStandbyType::UntilPinActivityClass` <a id="class_low_power_standby_type_1_1_until_pin_activity_class" class="anchor"></a>
 
-Class representing an activity that waits until a pin changes its state.
+A class representing the condition that waits until a pin changes its state.
 
 This class provides functionality to wait until a specified pin changes its state, either from LOW to HIGH or from HIGH to LOW.
 
