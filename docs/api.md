@@ -23,12 +23,13 @@ This class is specific to the Portenta H7 board.
 | [`allowDeepSleep`](#class_low_power_portenta_h7_1a7ed518f8205a0b7306d23b7e2a22e82b) | Make Deep Sleep possible in the default case. |
 | [`canDeepSleep`](#class_low_power_portenta_h7_1a07d9e0f356e40ac70655e279fbad87a9) | Check if Deep Sleep is possible or not at the moment. |
 | [`checkOptionBytes`](#class_low_power_portenta_h7_1a7519d3acf693f450af84312576d8e669) | Check if the option bytes are correct to enter Standby Mode. |
-| [`previousCPUMode`](#class_low_power_portenta_h7_1a07557aeee28ba41e80b8b847e965ee11) | Returns the previous CPU mode and resets the flag. |
+| [`wasInCPUMode`](#class_low_power_portenta_h7_1ae2059eb4fb01a30342b9fb6918b6ab4c) | Checks if the microcontroller was in the given standby mode before waking up. Note: It's possible that the microcontroller was in more than one of these modes during standby. Call this function multiple times to check for each mode. Important: When you're done checking, call resetStandbyModeFlags() to reset the flags so they are reported correctly the next time the microcontroller wakes up.  |
+| [`resetPreviousCPUModeFlags`](#class_low_power_portenta_h7_1a1753e3c053b2b64b59da3cbb9b921d76) | Reset the flags that are used to determine the microcontroller's previous standby mode. This is necessary to get correct results from [wasInCPUMode()](#class_low_power_portenta_h7_1ae2059eb4fb01a30342b9fb6918b6ab4c). |
 | [`numberOfDeepSleepLocks`](#class_low_power_portenta_h7_1a9d2730d86abf42782261b0f03778c3bb) | Check how many Deep Sleep locks are held at the moment. |
 | [`prepareOptionBytes`](#class_low_power_portenta_h7_1abdc0ce13b68d3a2188702690997af2ae) | Prepare the option bytes for entry into Standby Mode. |
 | [`standbyM4`](#class_low_power_portenta_h7_1a9e07fd4f7895a7753e7e28f99aca1ace) | Make the M4 core enter Standby Mode. |
 | [`standbyM7`](#class_low_power_portenta_h7_1a1eb5cec6e9604a48074f1c10ef5e7fb0) | Make the M7 core enter Standby Mode. |
-| [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. |
+| [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. It reports the time since the last wake-up reset (after standby) or power-on depending on what happened last. |
 | [`timeSpentIdle`](#class_low_power_portenta_h7_1ad42fdfa6885d8e0fdca5aa012fdb4c60) | Time spent in idle. |
 | [`timeSpentInSleep`](#class_low_power_portenta_h7_1a994eb6fcc0382515a82b81fa37ca9f3c) | Time spent in Sleep Mode. |
 | [`timeSpentInDeepSleep`](#class_low_power_portenta_h7_1a146eb61800a74360687fd34b456c0b44) | Time spent in Deep Sleep Mode. |
@@ -69,16 +70,28 @@ Check if the option bytes are correct to enter Standby Mode.
 A constant from the LowPowerReturnCode enum.
 <hr />
 
-### `previousCPUMode` <a id="class_low_power_portenta_h7_1a07557aeee28ba41e80b8b847e965ee11" class="anchor"></a>
+### `wasInCPUMode` <a id="class_low_power_portenta_h7_1ae2059eb4fb01a30342b9fb6918b6ab4c" class="anchor"></a>
 
 ```cpp
-CPUMode previousCPUMode() const
+bool wasInCPUMode( CPUMode mode) const
 ```
 
-Returns the previous CPU mode and resets the flag.
+Checks if the microcontroller was in the given standby mode before waking up. Note: It's possible that the microcontroller was in more than one of these modes during standby. Call this function multiple times to check for each mode. Important: When you're done checking, call resetStandbyModeFlags() to reset the flags so they are reported correctly the next time the microcontroller wakes up. 
+#### Parameters
+* `mode` The CPU mode to check. 
 
 #### Returns
-The previous CPU mode.
+True if the microcontroller was in the given mode, false otherwise.
+<hr />
+
+### `resetPreviousCPUModeFlags` <a id="class_low_power_portenta_h7_1a1753e3c053b2b64b59da3cbb9b921d76" class="anchor"></a>
+
+```cpp
+void resetPreviousCPUModeFlags() const
+```
+
+Reset the flags that are used to determine the microcontroller's previous standby mode. This is necessary to get correct results from [wasInCPUMode()](#class_low_power_portenta_h7_1ae2059eb4fb01a30342b9fb6918b6ab4c).
+
 <hr />
 
 ### `numberOfDeepSleepLocks` <a id="class_low_power_portenta_h7_1a9d2730d86abf42782261b0f03778c3bb" class="anchor"></a>
@@ -140,7 +153,7 @@ A constant from the LowPowerReturnCode enum.
 uint64_t timeSinceBoot() const
 ```
 
-Time since the board was booted.
+Time since the board was booted. It reports the time since the last wake-up reset (after standby) or power-on depending on what happened last.
 
 #### Returns
 Number of microseconds.
