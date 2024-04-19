@@ -67,10 +67,10 @@ enum class LowPowerReturnCode
 */
 enum class CPUMode
 {
-    d1DomainStandby,                  ///< Standby mode for the D1 domain
-    d2DomainStandby,                  ///< Standby mode for the D2 domain
-    standby,                    ///< Standby mode for the whole microcontroller
-    stop                        ///< Stop mode for the whole microcontroller
+    d1DomainStandby,        ///< Standby mode for the D1 domain
+    d2DomainStandby,        ///< Standby mode for the D2 domain
+    standby,                ///< Standby mode for the whole microcontroller
+    stop                    ///< Stop mode for the whole microcontroller
 };
 
 /*
