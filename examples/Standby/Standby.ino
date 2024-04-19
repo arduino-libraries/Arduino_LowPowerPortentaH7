@@ -76,30 +76,29 @@ void setup() {
   digitalWrite(LEDG, LOW);
   delay(500);
 
-  CPUMode previousMode = LowPower.previousCPUMode();
 
-  if (previousMode == CPUMode::standby)
+  if (LowPower.wasInCPUMode(CPUMode::standby))
   {
     digitalWrite(LEDB, HIGH);
     digitalWrite(LEDR, HIGH);
     digitalWrite(LEDG, LOW);
     delay(2500);
   }
-  if (previousMode == CPUMode::d1Standby)
+  if (LowPower.wasInCPUMode(CPUMode::d1Standby))
   {
     digitalWrite(LEDB, LOW);
     digitalWrite(LEDR, HIGH);
     digitalWrite(LEDG, HIGH);
     delay(2500);      
   }
-  if (previousMode == CPUMode::d2Standby)
+  if (LowPower.wasInCPUMode(CPUMode::d2Standby))
   {
     digitalWrite(LEDB, HIGH);
     digitalWrite(LEDR, LOW);
     digitalWrite(LEDG, HIGH);
     delay(2500);      
   }
-  if (previousMode == CPUMode::stop)
+  if (LowPower.wasInCPUMode(CPUMode::stop))
   {
     digitalWrite(LEDB, LOW);
     digitalWrite(LEDR, LOW);
@@ -114,6 +113,7 @@ void setup() {
   digitalWrite(LEDR, LOW);
   digitalWrite(LEDG, LOW);
   delay(500);
+  LowPower.resetPreviousCPUModeFlags();
 #endif
   // <--
 

@@ -210,27 +210,28 @@ LowPowerReturnCode LowPowerPortentaH7::checkOptionBytes() const
     return LowPowerReturnCode::success;
 }
 
-CPUMode LowPowerPortentaH7::previousCPUMode() const
+bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
 {
     auto registerValue = PWR->CPUCR;
-    CPUMode mode = CPUMode::unknown;
 
-    if (registerValue & PWR_CPUCR_SBF_D1)
+    switch (mode)
     {
-        mode = CPUMode::d1Standby;
-    } else if (registerValue & PWR_CPUCR_SBF_D2)
-    {
-        mode = CPUMode::d2Standby;
-    } else if (registerValue & PWR_CPUCR_SBF)
-    {
-        mode = CPUMode::standby;
-    } else if (registerValue & PWR_CPUCR_STOPF)
-    {
-        mode = CPUMode::stop;
+        case CPUMode::d1Standby:
+            return registerValue & PWR_CPUCR_SBF_D1;
+        case CPUMode::d2Standby:
+            return registerValue & PWR_CPUCR_SBF_D2;
+        case CPUMode::standby:
+            return registerValue & PWR_CPUCR_SBF;
+        case CPUMode::stop:
+            return registerValue & PWR_CPUCR_STOPF;
     }
 
+    return false;
+}
+
+void LowPowerPortentaH7::resetPreviousCPUModeFlags() const
+{
     PWR->CPUCR |= PWR_CPUCR_CSSF; // Clear standby flags
-    return mode;
 }
 
 uint16_t LowPowerPortentaH7::numberOfDeepSleepLocks() const

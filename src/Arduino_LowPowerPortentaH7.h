@@ -70,8 +70,7 @@ enum class CPUMode
     d1Standby,                  ///< Standby mode for the M7 core
     d2Standby,                  ///< Standby mode for the M4 core
     standby,                    ///< Standby mode for the whole microcontroller
-    stop,                        ///< Stop mode for the whole microcontroller
-    unknown                     ///< Unknown mode
+    stop                        ///< Stop mode for the whole microcontroller
 };
 
 /*
@@ -288,11 +287,22 @@ class LowPowerPortentaH7 {
         LowPowerReturnCode checkOptionBytes() const;
 
         /**
-         * Returns the previous CPU mode and resets the flag.
-         *
-         * @return The previous CPU mode.
+         * Checks if the microcontroller was in the given standby mode before waking up.
+         * Note: It's possible that the microcontroller was in more than one of these modes
+         * during standby. Call this function multiple times to check for each mode.
+         * Important: When you're done checking, call resetStandbyModeFlags() to reset the flags
+         * so they are reported correctly the next time the microcontroller wakes up.
+         * @param mode The CPU mode to check.
+         * @return True if the microcontroller was in the given mode, false otherwise.
          */
-        CPUMode previousCPUMode() const;
+        bool wasInCPUMode(CPUMode mode) const;
+
+        /**
+        * @brief Reset the flags that are used to determine the microcontroller's
+        * previous standby mode. This is necessary to get correct results from
+        * wasInCPUMode().
+        */
+        void resetPreviousCPUModeFlags() const;
 
 
         // The deprecated attribute is used here because we only want this
