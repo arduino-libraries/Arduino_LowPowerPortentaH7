@@ -325,18 +325,27 @@ class LowPowerPortentaH7 {
         */
         LowPowerReturnCode standbyM4() const;
 
-        /**
-        * @brief Make the M7 core enter Standby Mode.
-        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
-        * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
-        * @param args The delay before waking up again
-        * @return A constant from the LowPowerReturnCode enum.
-        */
+        // This is the variant that the compiler will see and use
+        /// @cond DEV
         template<typename T, typename... Args>
         typename std::enable_if<ArgumentsAreCorrect<T, Args...>::value,
                  LowPowerReturnCode>::type
         standbyM7(const T standbyType, const Args... args) const;
-        
+        /// @endcond
+        // This is the simplified variant that Doxygen will see and use
+        // Notice that VISIBLE_ONLY_TO_DOXYGEN isn't defined anywhere - it doesn't
+        // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
+        #ifdef VISIBLE_ONLY_TO_DOXYGEN
+        /**
+        * @brief Make the M7 core enter Standby Mode.
+        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
+        * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
+        * @param args An optional delay before waking up again, if LowPowerStandbyType::untilTimeElapsed is used.
+        * @return A constant from the LowPowerReturnCode enum.
+        */
+        LowPowerReturnCode standbyM7(const T standbyType, const Args... args) const;
+        #endif
+
         /**
         * @brief Time since the board was booted.
         * It reports the time since the last wake-up reset (after being in Standby Mode) 
@@ -436,6 +445,7 @@ LowPowerStandbyType::UntilEitherClass operator|(
 ********************************************************************************
 */
 
+/// @cond DEV
 template<typename T, typename... Args>
 typename std::enable_if<LowPowerPortentaH7::ArgumentsAreCorrect<T, Args...>::value,
                         LowPowerReturnCode>::type
@@ -687,5 +697,6 @@ LowPowerPortentaH7::standbyM7(const T standbyType,
 
     return LowPowerReturnCode::m7StandbyFailed;
 }
+/// @endcond
 
 #endif  // End of header guard
