@@ -233,7 +233,7 @@ bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
 
 void LowPowerPortentaH7::resetPreviousCPUModeFlags() const
 {
-    PWR->CPUCR |= PWR_CPUCR_CSSF; // Clear standby flags
+    PWR->CPUCR |= PWR_CPUCR_CSSF;
 }
 
 uint16_t LowPowerPortentaH7::numberOfDeepSleepLocks() const
@@ -312,7 +312,7 @@ LowPowerReturnCode LowPowerPortentaH7::standbyM4() const
     // <--
 
     // Disable and clear all pending interrupts in the NVIC. There are 8
-    // registers in the Cortex-M7.
+    // registers in the Cortex-M4.
     for (auto i = 0; i < 8; i++)
     {
         NVIC->ICER[i] = 0xffffffff;
