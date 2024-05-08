@@ -28,7 +28,7 @@ This class is specific to the Portenta H7 board.
 | [`numberOfDeepSleepLocks`](#class_low_power_portenta_h7_1a9d2730d86abf42782261b0f03778c3bb) | Check how many Deep Sleep locks are held at the moment. |
 | [`prepareOptionBytes`](#class_low_power_portenta_h7_1abdc0ce13b68d3a2188702690997af2ae) | Prepare the option bytes for entry into Standby Mode. |
 | [`standbyM4`](#class_low_power_portenta_h7_1a9e07fd4f7895a7753e7e28f99aca1ace) | Make the M4 core enter Standby Mode. |
-| [`standbyM7`](#class_low_power_portenta_h7_1a1eb5cec6e9604a48074f1c10ef5e7fb0) | Make the M7 core enter Standby Mode. |
+| [`standbyM7`](#class_low_power_portenta_h7_1aa9c1cb86c832c35f6653a3d6c9f0d32f) | Make the M7 core enter Standby Mode. |
 | [`timeSinceBoot`](#class_low_power_portenta_h7_1a4758c25574b6d099545ac8d55eff6f68) | Time since the board was booted. It reports the time since the last wake-up reset (after being in Standby Mode) or power-on depending on what happened last. |
 | [`timeSpentIdle`](#class_low_power_portenta_h7_1ad42fdfa6885d8e0fdca5aa012fdb4c60) | Time spent in idle. |
 | [`timeSpentInSleep`](#class_low_power_portenta_h7_1a994eb6fcc0382515a82b81fa37ca9f3c) | Time spent in Sleep Mode. |
@@ -130,10 +130,10 @@ Make the M4 core enter Standby Mode.
 A constant from the LowPowerReturnCode enum.
 <hr />
 
-### `standbyM7` <a id="class_low_power_portenta_h7_1a1eb5cec6e9604a48074f1c10ef5e7fb0" class="anchor"></a>
+### `standbyM7` <a id="class_low_power_portenta_h7_1aa9c1cb86c832c35f6653a3d6c9f0d32f" class="anchor"></a>
 
 ```cpp
-template<> std::enable_if< ArgumentsAreCorrect< T, Args... >::value, LowPowerReturnCode >::type standbyM7(const T standbyType, const Args... args) const
+LowPowerReturnCode standbyM7(const T standbyType, const Args... args) const
 ```
 
 Make the M7 core enter Standby Mode.
@@ -141,7 +141,7 @@ Make the M7 core enter Standby Mode.
 #### Parameters
 * `standbyType` One or a combination of [LowPowerStandbyType::untilPinActivity](#class_low_power_standby_type_1a4c5b50ac615cf60ff88dd3b9bb145fa9) and [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e). The combination is done with the | operator. 
 
-* `args` The delay before waking up again 
+* `args` An optional delay before waking up again, if [LowPowerStandbyType::untilTimeElapsed](#class_low_power_standby_type_1aa4882e571c0e9444c5978c8520e8e90e) is used. 
 
 #### Returns
 A constant from the LowPowerReturnCode enum.
