@@ -312,7 +312,7 @@ class LowPowerPortentaH7 {
         */
        [[deprecated("This function is experimental and should not be used in production code")]]
         uint16_t numberOfDeepSleepLocks() const;
-        
+
         /**
         * @brief Prepare the option bytes for entry into Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
@@ -463,11 +463,18 @@ LowPowerPortentaH7::standbyM7(const T standbyType,
     // otherwise, the Ethernet transmit termination resistors will overheat
     // from the voltage that gets applied over them. It would be 125 mW in each
     // of them, while they are rated at 50 mW. If we fail to turn off Ethernet,
-    // we must not proceed.
+    // we must not proceed. If this library is used with another library that
+    // turns off the rail that powers the Ethernet chip before calling this
+    // function, that library should #define NO_ETHERNET_TURN_OFF, or entering
+    // Standby Mode will fail. Anyone who defines that constant takes
+    // responsibility for not overheating the resistors. It is NOT part of the
+    // API intended for ordinary users.
+    #ifndef NO_ETHERNET_TURN_OFF
     if (false == turnOffEthernet())
     {
         return LowPowerReturnCode::turningOffEthernetFailed;
     }
+    #endif
 
     // Prevent Mbed from changing things
     core_util_critical_section_enter();
