@@ -335,7 +335,7 @@ class LowPowerPortentaH7 {
         // This is the simplified variant that Doxygen will see and use
         // Notice that DOXYGEN_ONLY isn't defined anywhere - it doesn't
         // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
-        #ifdef VISIBLE_ONLY_TO_DOXYGEN
+        #ifdef DOXYGEN_ONLY
         /**
         * @brief Make the M7 core enter Standby Mode.
         * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
