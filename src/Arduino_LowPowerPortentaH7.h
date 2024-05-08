@@ -333,7 +333,7 @@ class LowPowerPortentaH7 {
         standbyM7(const T standbyType, const Args... args) const;
         /// @endcond
         // This is the simplified variant that Doxygen will see and use
-        // Notice that VISIBLE_ONLY_TO_DOXYGEN isn't defined anywhere - it doesn't
+        // Notice that DOXYGEN_ONLY isn't defined anywhere - it doesn't
         // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
         #ifdef VISIBLE_ONLY_TO_DOXYGEN
         /**
