@@ -312,7 +312,7 @@ class LowPowerPortentaH7 {
         */
        [[deprecated("This function is experimental and should not be used in production code")]]
         uint16_t numberOfDeepSleepLocks() const;
-        
+
         /**
         * @brief Prepare the option bytes for entry into Standby Mode.
         * @return A constant from the LowPowerReturnCode enum.
@@ -325,18 +325,27 @@ class LowPowerPortentaH7 {
         */
         LowPowerReturnCode standbyM4() const;
 
-        /**
-        * @brief Make the M7 core enter Standby Mode.
-        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
-        * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
-        * @param args The delay before waking up again
-        * @return A constant from the LowPowerReturnCode enum.
-        */
+        // This is the variant that the compiler will see and use
+        /// @cond DEV
         template<typename T, typename... Args>
         typename std::enable_if<ArgumentsAreCorrect<T, Args...>::value,
                  LowPowerReturnCode>::type
         standbyM7(const T standbyType, const Args... args) const;
-        
+        /// @endcond
+        // This is the simplified variant that Doxygen will see and use
+        // Notice that DOXYGEN_ONLY isn't defined anywhere - it doesn't
+        // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
+        #ifdef DOXYGEN_ONLY
+        /**
+        * @brief Make the M7 core enter Standby Mode.
+        * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
+        * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
+        * @param args An optional delay before waking up again, if LowPowerStandbyType::untilTimeElapsed is used.
+        * @return A constant from the LowPowerReturnCode enum.
+        */
+        LowPowerReturnCode standbyM7(const T standbyType, const Args... args) const;
+        #endif
+
         /**
         * @brief Time since the board was booted.
         * It reports the time since the last wake-up reset (after being in Standby Mode) 
@@ -436,6 +445,7 @@ LowPowerStandbyType::UntilEitherClass operator|(
 ********************************************************************************
 */
 
+/// @cond DEV
 template<typename T, typename... Args>
 typename std::enable_if<LowPowerPortentaH7::ArgumentsAreCorrect<T, Args...>::value,
                         LowPowerReturnCode>::type
@@ -453,11 +463,18 @@ LowPowerPortentaH7::standbyM7(const T standbyType,
     // otherwise, the Ethernet transmit termination resistors will overheat
     // from the voltage that gets applied over them. It would be 125 mW in each
     // of them, while they are rated at 50 mW. If we fail to turn off Ethernet,
-    // we must not proceed.
+    // we must not proceed. If this library is used with another library that
+    // turns off the rail that powers the Ethernet chip before calling this
+    // function, that library should #define NO_ETHERNET_TURN_OFF, or entering
+    // Standby Mode will fail. Anyone who defines that constant takes
+    // responsibility for not overheating the resistors. It is NOT part of the
+    // API intended for ordinary users.
+    #ifndef NO_ETHERNET_TURN_OFF
     if (false == turnOffEthernet())
     {
         return LowPowerReturnCode::turningOffEthernetFailed;
     }
+    #endif
 
     // Prevent Mbed from changing things
     core_util_critical_section_enter();
@@ -687,5 +704,6 @@ LowPowerPortentaH7::standbyM7(const T standbyType,
 
     return LowPowerReturnCode::m7StandbyFailed;
 }
+/// @endcond
 
 #endif  // End of header guard
