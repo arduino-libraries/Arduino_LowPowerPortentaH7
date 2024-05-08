@@ -127,8 +127,13 @@ void setup() {
 
 #if defined CORE_CM7
   LowPower.standbyM7(LowPowerStandbyType::untilPinActivity | LowPowerStandbyType::untilTimeElapsed, 10_s);
-  // The following is an alternative way to go into standby for 10 seconds
+  //
+  // The following is an alternative way to go into Standby Mode for 10 seconds:
   // LowPower.standbyM7(LowPowerStandbyType::untilTimeElapsed, RTCWakeupDelay(0, 0, 10));
+  //
+  // The following is how to go to into Standby Mode waiting only for a wakeup pin:
+  // LowPower.standbyM7(LowPowerStandbyType::untilPinActivity);
+  //
 #else
   LowPower.standbyM4();
 #endif
