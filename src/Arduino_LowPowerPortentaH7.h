@@ -39,7 +39,7 @@
 
 /**
  * @enum LowPowerReturnCode
- * @brief Provides the return codes for the standby operations.
+ * @brief Provides the return codes for the API functions of the library.
  * The codes indicate the success or failure of the operations.
  */
 enum class LowPowerReturnCode
@@ -62,8 +62,7 @@ enum class LowPowerReturnCode
 /**
  * @enum CPUMode
  * @brief Provides the different modes of the CPU.
- * Those can be used to determine in which standby mode the CPU
- * was before waking up.
+ * Those can be used to determine in which mode the CPU was before waking up.
 */
 enum class CPUMode
 {
@@ -80,9 +79,9 @@ enum class CPUMode
 */
 
 /**
- * @brief The LowPowerStandbyType class represents different types of standby modes for low power operation.
+ * @brief The LowPowerStandbyType class represents different methods of wakeup.
  * 
- * This class provides options for the following standby modes: waiting until pin activity 
+ * This class provides options for the following methods of wakeup: waiting until pin activity
  * or until a specified time has elapsed, or both.
  * Those are represented by LowPowerStandbyType::untilPinActivity and LowPowerStandbyType::untilTimeElapsed.
  * To combine the two options use the | operator.
@@ -91,7 +90,7 @@ class LowPowerStandbyType {
     public:
         /// @cond DEV
         /**
-         * @brief A class representing the condition that waits until a wakeup pin changes its state.
+         * @brief A class representing a wakeup option that waits until a wakeup pin changes its state.
          * 
          * This class provides functionality to wait until a specified pin changes its state,
          * from HIGH to LOW.
@@ -127,7 +126,7 @@ class LowPowerStandbyType {
         /// @cond DEV
         /**
          * @brief Represents a wakeup option which waits until either 
-         * a pin activity occurs or a specified time has elapsed.
+         * a pin activity occurs or a specified time has elapsed, whichever happens first
         */
         class UntilEitherClass {
         };
@@ -143,7 +142,7 @@ class LowPowerStandbyType {
 };
 
 /**
- * @brief The RTCWakeupDelay class represents a delay before waking up from a low power mode.
+ * @brief The RTCWakeupDelay class represents a delay before waking up from Standby Mode.
 */
 class RTCWakeupDelay {
     public:
@@ -188,9 +187,9 @@ class RTCWakeupDelay {
  * 
  * The LowPowerPortentaH7 class allows the microcontroller on the Portenta H7 board
  * to enter low power modes such as Standby Mode and Deep Sleep Mode. It provides
- * functions to check the current mode, prepare the option bytes for entering Standby Mode,
+ * functions to check the mode before startup, prepare the option bytes for entering Standby Mode,
  * and control the M4 and M7 cores independently. It also provides functions to measure
- * the time since boot, time spent in idle, sleep, and deep sleep modes.
+ * the time since boot, time spent in Idle, Sleep, and Deep Sleep modes.
  * 
  * This class is a singleton and shall always be accessed through the global LowPower object.
  * 
@@ -309,7 +308,7 @@ class LowPowerPortentaH7 {
         LowPowerReturnCode prepareOptionBytes() const;
 
         /**
-        * @brief Make the M4 core enter Standby Mode.
+        * @brief Make the M4 core and D2 domain enter standby mode.
         * @return A constant from the LowPowerReturnCode enum.
         */
         LowPowerReturnCode standbyM4() const;
@@ -326,7 +325,7 @@ class LowPowerPortentaH7 {
         // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
         #ifdef DOXYGEN_ONLY
         /**
-        * @brief Make the M7 core enter Standby Mode.
+        * @brief Make the M7 core and D2 domain enter standby mode, and make it possible for the D3 domain to do so too
         * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
         * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
         * @param args An optional delay before waking up again, if LowPowerStandbyType::untilTimeElapsed is used.
@@ -344,7 +343,7 @@ class LowPowerPortentaH7 {
         uint64_t timeSinceBoot() const;
 
         /**
-        * @brief Time spent in idle.
+        * @brief Time spent in Idle Mode.
         * @return Number of microseconds.
         */
         uint64_t timeSpentIdle() const;
