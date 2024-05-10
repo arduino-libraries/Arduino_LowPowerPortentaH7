@@ -210,27 +210,6 @@ LowPowerReturnCode LowPowerPortentaH7::checkOptionBytes() const
     return LowPowerReturnCode::success;
 }
 
-bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
-{
-    const auto registerValue = PWR->CPUCR;
-
-    switch (mode)
-    {
-        case CPUMode::d1DomainStandby:
-            return registerValue & PWR_CPUCR_SBF_D1;
-        case CPUMode::d2DomainStandby:
-            return registerValue & PWR_CPUCR_SBF_D2;
-        case CPUMode::standby:
-            return registerValue & PWR_CPUCR_SBF;
-        case CPUMode::stop:
-            return registerValue & PWR_CPUCR_STOPF;
-        default:
-            return false;
-    }
-
-    return false;
-}
-
 void LowPowerPortentaH7::resetPreviousCPUModeFlags() const
 {
     PWR->CPUCR |= PWR_CPUCR_CSSF;
@@ -394,4 +373,25 @@ void LowPowerPortentaH7::waitForFlashReady() const
     // 0x07 = QW, WBNE, and BSY flags
     while ((FLASH->SR1 & 0x07) || (FLASH->SR2 & 0x07))
       ;
+}
+
+bool LowPowerPortentaH7::wasInCPUMode(CPUMode mode) const
+{
+    const auto registerValue = PWR->CPUCR;
+
+    switch (mode)
+    {
+        case CPUMode::d1DomainStandby:
+            return registerValue & PWR_CPUCR_SBF_D1;
+        case CPUMode::d2DomainStandby:
+            return registerValue & PWR_CPUCR_SBF_D2;
+        case CPUMode::standby:
+            return registerValue & PWR_CPUCR_SBF;
+        case CPUMode::stop:
+            return registerValue & PWR_CPUCR_STOPF;
+        default:
+            return false;
+    }
+
+    return false;
 }

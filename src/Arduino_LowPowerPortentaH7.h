@@ -286,17 +286,6 @@ class LowPowerPortentaH7 {
         LowPowerReturnCode checkOptionBytes() const;
 
         /**
-         * Checks if the microcontroller was in the given CPU mode before starting.
-         * Note: It's possible that the microcontroller was in more than one of these modes
-         * before starting. Call this function multiple times to check for each mode.
-         * Important: When you're done checking, call resetStandbyModeFlags() to reset the flags
-         * so they are reported correctly the next time the microcontroller starts.
-         * @param mode The CPU mode to check.
-         * @return True if the microcontroller was in the given mode, false otherwise.
-         */
-        bool wasInCPUMode(CPUMode mode) const;
-
-        /**
         * @brief Reset the flags that are used to determine the microcontroller's
         * previous CPU mode. This is necessary to get correct results from
         * wasInCPUMode().
@@ -371,6 +360,17 @@ class LowPowerPortentaH7 {
         * @return Number of microseconds.
         */
         uint64_t timeSpentInDeepSleep() const;
+
+        /**
+         * Checks if the microcontroller was in the given CPU mode before starting.
+         * Note: It's possible that the microcontroller was in more than one of these modes
+         * before starting. Call this function multiple times to check for each mode.
+         * Important: When you're done checking, call resetStandbyModeFlags() to reset the flags
+         * so they are reported correctly the next time the microcontroller starts.
+         * @param mode The CPU mode to check.
+         * @return True if the microcontroller was in the given mode, false otherwise.
+         */
+        bool wasInCPUMode(CPUMode mode) const;
 };
 
 /*
