@@ -26,6 +26,8 @@ The microcontroller has three power domains: one for the M7 core (D1), one for t
 
 All configuration of Standby Mode is done when calling `standbyM7()`. It takes one or two parameters, depending on the conditions you want to set for waking up. The first parameter is one of the flags `LowPowerStandbyType::untilPinActivity` and `LowPowerStandbyType::untilTimeElapsed`. If you want to wake up from either type of event, you can combine the flags like so: `LowPowerStandbyType::untilPinActivity | LowPowerStandbyType::untilTimeElapsed`. If `LowPowerStandbyType::untilTimeElapsed` is present, the function takes a second parameter. This parameter's preferred format is `2_h + 30_min + 45_s`. You can use any combination of hours, minutes, and seconds. For example, `15_h`, or `1_h + 30_min`, or just `90_s`. If you first have to calculate the delay in your sketch, you can also pass something like this: `RTCWakeupDelay(1, 20, 30)`. The first number is hours, the second minutes, and the third seconds. But, the preferred option is to use _h, _min, and _s since that's more explicit.
 
+When the microcontroller wakes up again from Standby Mode, both the M7 and the M4 cores do so in parallel.
+
 > [!IMPORTANT]
 > You must always upload a sketch to the M4 core, in which you call `standbyM4()`, even if you don't intend to use the M4 core. If you don't, the microcontroller won't enter Standby Mode as a whole, even if you call `standbyM7()`, and that will lead to an increased power consumption.
 
