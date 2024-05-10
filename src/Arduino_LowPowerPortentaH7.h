@@ -325,7 +325,7 @@ class LowPowerPortentaH7 {
         // have to be since Doxygen is configured with ENABLE_PREPROCESSING NO
         #ifdef DOXYGEN_ONLY
         /**
-        * @brief Make the M7 core and D2 domain enter standby mode, and make it possible for the D3 domain to do so too
+        * @brief Make the M7 core and D1 domain enter standby mode, and make it possible for the D3 domain to do so too
         * @param standbyType One or a combination of LowPowerStandbyType::untilPinActivity 
         * and LowPowerStandbyType::untilTimeElapsed. The combination is done with the | operator.
         * @param args An optional delay before waking up again, if LowPowerStandbyType::untilTimeElapsed is used.
