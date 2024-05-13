@@ -55,7 +55,7 @@ void setup() {
 
     
 
-    LowPower.standbyM7(LowPowerStandbyType::untilPinActivity | LowPowerStandbyType::untilTimeElapsed, 10 s);
+    LowPower.standbyM7(LowPowerStandbyType::untilPinActivity | LowPowerStandbyType::untilTimeElapsed, 10_s);
     //
     // The following is an alternative way to go into Standby Mode for 10 seconds:
     // LowPower.standbyM7(LowPowerStandbyType::untilTimeElapsed, RTCWakeupDelay(0, 0, 10));

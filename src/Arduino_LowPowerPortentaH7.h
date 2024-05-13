@@ -468,11 +468,15 @@ LowPowerPortentaH7::standbyM7(const T standbyType,
     // Standby Mode will fail. Anyone who defines that constant takes
     // responsibility for not overheating the resistors. It is NOT part of the
     // API intended for ordinary users.
-    #ifndef NO_ETHERNET_TURN_OFF
-    if (false == turnOffEthernet())
-    {
-        return LowPowerReturnCode::turningOffEthernetFailed;
-    }
+    #ifdef NO_ETHERNET_TURN_OFF
+        #warning "If you are defining NO_ETHERNET_TURN_OFF in your own sketch \
+or library, then please make sure to turn off the power \
+to the Ethernet chip before going into Standby Mode."
+    #else
+        if (false == turnOffEthernet())
+        {
+            return LowPowerReturnCode::turningOffEthernetFailed;
+        }
     #endif
 
     // Prevent Mbed from changing things
