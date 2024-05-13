@@ -13,7 +13,13 @@
  * This code is in the public domain
  */
 
+// WARNING: The following #define disables automatically turning off the Ethernet chip when the
+//          microcontroller goes into Standby Mode. Doing so can damage the Ethernet transmission
+//          termination resistors unless the power to the Ethernet chip is turned off manually,
+//          as in this example sketch, before entering Standby Mode.
+// -->
 #define NO_ETHERNET_TURN_OFF
+// <--
 
 #include "Arduino_LowPowerPortentaH7.h"
 #include "Arduino_PMIC.h"
