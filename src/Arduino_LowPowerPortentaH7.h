@@ -200,7 +200,6 @@ class LowPowerPortentaH7 {
         LowPowerPortentaH7()    = default;
         ~LowPowerPortentaH7()   = default;
 
-        bool turnOffEthernet() const;
         void waitForFlashReady() const;
 
         /// @cond DEV
@@ -370,6 +369,13 @@ class LowPowerPortentaH7 {
          * @return True if the microcontroller was in the given mode, false otherwise.
          */
         bool wasInCPUMode(CPUMode mode) const;
+		
+		/**
+        * @brief Put the ethernet module and phy in low power mode.
+		* Note: The board will blink the red LED every half second if this fails and will not progress.
+        * @return Success or failure.
+        */
+		bool turnOffEthernet() const;
 };
 
 /*
